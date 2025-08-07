@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { cache } from "react"
+import fs from 'fs'
+import path from 'path'
 
 export default async function Todo() {
-  const data = await fetch('http://localhost:3000/db.json', {
-    cache: "no-store",
-  })
-  
-  const result = await data.json();
+  // Read the JSON file directly from the file system
+  const filePath = path.join(process.cwd(), 'public', 'db.json')
+  const fileContents = fs.readFileSync(filePath, 'utf8')
+  const result = JSON.parse(fileContents)
   const todos = result.todos;
   return (
     <main className="container">
